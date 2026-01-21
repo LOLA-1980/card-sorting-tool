@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Single File Card Sorting Tool</title>
+
+  <!-- ===== Inline CSS ===== -->
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .app {
+      background: white;
+      padding: 20px;
+      width: 320px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    .card {
+      border: 2px solid #ddd;
+      border-radius: 6px;
+      padding: 20px;
+      margin: 20px 0;
+      font-size: 16px;
+      min-height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    button {
+      flex: 1;
+      margin: 5px;
+      padding: 10px;
+      font-size: 14px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .keep {
+      background: #4caf50;
+      color: white;
+    }
+
+    .discard {
+      background: #f44336;
+      color: white;
+    }
+
+    .stats {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app">
+    <h1>Card Sorting Tool</h1>
+
+    <!-- Card Display -->
+    <div class="card" id="card">
+      Loading card...
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="buttons">
+      <button class="keep" onclick="handleDecision('keep')">Keep</button>
+      <button class="discard" onclick="handleDecision('discard')">Discard</button>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats" id="stats">
+      Keep: 0 | Discard: 0
+    </div>
+  </div>
+
+  <!-- ===== Inline JavaScript ===== -->
+  <script>
+    /*
+      Simple in-browser card sorting utility.
+      - No frameworks
+      - No external dependencies
+      - All state managed in memory
+    */
+
+    // Sample cards to sort
+    const cards = [
+      "Improve onboarding flow",
+      "Add dark mode",
+      "Refactor authentication logic",
+      "Update landing page copy",
+      "Optimize database queries"
+    ];
+
+    // Application state
+    let currentIndex = 0;
+    let keepCount = 0;
+    let discardCount = 0;
+
+    const cardElement = document.getElementById("card");
+    const statsElement = document.getElementById("stats");
+
+    // Display the current card
+    function renderCard() {
+      if (currentIndex < cards.length) {
+        cardElement.textContent = cards[currentIndex];
+      } else {
+        cardElement.textContent = "No more cards to sort.";
+      }
+    }
+
+    // Handle user decision
+    function handleDecision(type) {
+      if (currentIndex >= cards.length) return;
+
+      if (type === "keep") {
+        keepCount++;
+      } else if (type === "discard") {
+        discardCount++;
+      }
+
+      currentIndex++;
+      updateStats();
+      renderCard();
+    }
+
+    // Update statistics text
+    function updateStats() {
+      statsElement.textContent = `Keep: ${keepCount} | Discard: ${discardCount}`;
+    }
+
+    // Initial render
+    renderCard();
+  </script>
+
+</body>
+</html>
